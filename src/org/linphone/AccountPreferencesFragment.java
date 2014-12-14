@@ -494,7 +494,7 @@ public class AccountPreferencesFragment extends PreferencesListFragment {
 			values.add(getString(R.string.pref_transport_tls_key));
 		}
 		setListPreferenceValues(pref, entries, values);
-		
+
 		if (! isNewAccount) {
 			pref.setSummary(mPrefs.getAccountTransportString(n));
 			pref.setDefaultValue(mPrefs.getAccountTransportKey(n));

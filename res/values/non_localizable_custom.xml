@@ -12,6 +12,8 @@
 	<bool name="override_domain_using_default_one">false</bool> <!-- Replace the domain for outgoing calls by the one above -->
 	<string name="wizard_url">https://www.linphone.org/wizard.php</string>
 
+    <string name="ringring_api_url">https://api.ringring.io</string>
+
 	<!-- Interface settings -->
     <bool name="use_simple_history">true</bool>
     <bool name="replace_settings_by_about">false</bool>

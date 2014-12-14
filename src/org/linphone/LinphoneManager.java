@@ -145,6 +145,7 @@ public class LinphoneManager implements LinphoneListener {
 		mLinphoneFactoryConfigFile = basePath + "/linphonerc";
 		mLinphoneConfigFile = basePath + "/.linphonerc";
 		mLinphoneRootCaFile = basePath + "/rootca.pem";
+		mLinphoneRingringCaFile = basePath + "/ringring_io.pem";
 		mRingSoundFile = basePath + "/oldphone_mono.wav";
 		mRingbackSoundFile = basePath + "/ringback.wav";
 		mPauseSoundFile = basePath + "/toy_mono.wav";
@@ -165,6 +166,7 @@ public class LinphoneManager implements LinphoneListener {
 	private final String mLPConfigXsd;
 	private final String mLinphoneFactoryConfigFile;
 	private final String mLinphoneRootCaFile;
+	private final String mLinphoneRingringCaFile;
 	public final String mLinphoneConfigFile;
 	private final String mRingSoundFile;
 	private final String mRingbackSoundFile;
@@ -547,6 +549,7 @@ public class LinphoneManager implements LinphoneListener {
 		copyFromPackage(R.raw.linphonerc_factory, new File(mLinphoneFactoryConfigFile).getName());
 		copyIfNotExist(R.raw.lpconfig, mLPConfigXsd);
 		copyIfNotExist(R.raw.rootca, mLinphoneRootCaFile);
+		copyIfNotExist(R.raw.ringring_io, mLinphoneRingringCaFile);
 	}
 
 	public void copyIfNotExist(int ressourceId, String target) throws IOException {

@@ -3,12 +3,34 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+       classpath 'com.android.tools.build:gradle:1.0.0'
+       classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4+'
     }
 }
 apply plugin: 'android'
+apply plugin: 'android-apt'
+
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0].processResources.manifestFile
+        resourcePackage "org.linphone"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
 
 dependencies {
+    // Rest Template
+    compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
+    compile 'com.google.code.gson:gson:2.3.1'
+
+    // Android Annotations
+    apt "org.androidannotations:androidannotations:3.0+"
+    compile "org.androidannotations:androidannotations-api:3.0+"
+
+    // Anything else local
     compile fileTree(dir: 'libs', include: '*.jar')
 }
 
@@ -42,4 +64,11 @@ android {
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }
+
+    packagingOptions {
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/notice.txt'
+    }
 }
+
+

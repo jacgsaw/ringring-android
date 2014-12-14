@@ -47,14 +47,15 @@ import org.linphone.core.LinphoneCoreListener.LinphoneRegistrationStateListener;
 import org.linphone.core.LinphoneFriend;
 import org.linphone.core.LinphoneProxyConfig;
 import org.linphone.mediastream.Log;
-import org.linphone.setup.RemoteProvisioningLoginActivity;
 import org.linphone.setup.SetupActivity;
 import org.linphone.ui.AddressText;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
@@ -92,7 +93,7 @@ import android.widget.Toast;
 public class LinphoneActivity extends FragmentActivity implements OnClickListener, ContactPicked, LinphoneCallStateListener, LinphoneMessageListener, LinphoneRegistrationStateListener {
 	public static final String PREF_FIRST_LAUNCH = "pref_first_launch";
 	private static final int SETTINGS_ACTIVITY = 123;
-	private static final int FIRST_LOGIN_ACTIVITY = 101;
+	private static final int LOGIN_ACTIVITY = 101;
 	private static final int REMOTE_PROVISIONING_LOGIN_ACTIVITY = 102;
 	private static final int CALL_ACTIVITY = 19;
 
@@ -140,20 +141,14 @@ public class LinphoneActivity extends FragmentActivity implements OnClickListene
 			startActivity(getIntent().setClass(this, LinphoneLauncherActivity.class));
 			return;
 		}
-		
-		boolean useFirstLoginActivity = getResources().getBoolean(R.bool.display_account_wizard_at_first_start);
-		if (LinphonePreferences.instance().isProvisioningLoginViewEnabled()) {
-			Intent wizard = new Intent();
-			wizard.setClass(this, RemoteProvisioningLoginActivity.class);
-			wizard.putExtra("Domain", LinphoneManager.getInstance().wizardLoginViewDomain);
-			startActivityForResult(wizard, REMOTE_PROVISIONING_LOGIN_ACTIVITY);
-		} else if (useFirstLoginActivity && LinphonePreferences.instance().isFirstLaunch()) {
-			if (LinphonePreferences.instance().getAccountCount() > 0) {
-				LinphonePreferences.instance().firstLaunchSuccessful();
-			} else {
-				startActivityForResult(new Intent().setClass(this, SetupActivity.class), FIRST_LOGIN_ACTIVITY);
-			}
-		}
+
+        if (LinphonePreferences.instance().isFirstLaunch()) {
+            if (LinphonePreferences.instance().getAccountCount() > 0) {
+                LinphonePreferences.instance().firstLaunchSuccessful();
+            } else {
+                startActivityForResult(new Intent().setClass(this, SetupActivity.class), LOGIN_ACTIVITY);
+            }
+        }
 
 		setContentView(R.layout.main);
 		instance = this;
@@ -258,6 +253,32 @@ public class LinphoneActivity extends FragmentActivity implements OnClickListene
 		findViewById(R.id.fragmentContainer).setPadding(0, LinphoneUtils.pixelsToDpi(getResources(), 40), 0, 0);
 	}
 
+    private void logout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(getString(R.string.confirm))
+                .setMessage(getString(R.string.do_you_want_to_logout))
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+
+                        startActivityForResult(new Intent().setClass(LinphoneActivity.instance(), SetupActivity.class), LOGIN_ACTIVITY);
+                    }
+                })
+                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 	private void changeCurrentFragment(FragmentsAvailable newFragmentType, Bundle extras) {
 		changeCurrentFragment(newFragmentType, extras, false);
 	}
@@ -316,7 +337,7 @@ public class LinphoneActivity extends FragmentActivity implements OnClickListene
 			dialerFragment = newFragment;
 			break;
 		case SETTINGS:
-			newFragment = new SettingsFragment();
+            logout();
 			break;
 		case ACCOUNT_SETTINGS:
 			newFragment = new AccountPreferencesFragment();
