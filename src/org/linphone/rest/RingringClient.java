@@ -14,7 +14,7 @@ import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.androidannotations.annotations.rest.Rest;
 import org.springframework.web.client.RestTemplate;
 
-@Rest(rootUrl = "http://api.ringring.io/v2", converters = { GsonHttpMessageConverter.class} )
+@Rest(rootUrl = "https://api.ringring.io/v2", converters = { GsonHttpMessageConverter.class} )
 public interface RingringClient {
 
     RestTemplate getRestTemplate();

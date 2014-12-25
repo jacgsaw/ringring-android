@@ -512,7 +512,7 @@ public class LinphoneManager implements LinphoneListener {
 		} else {
 			mLc.setRing(null);
 		}
-		mLc.setRootCA(mLinphoneRootCaFile);
+		mLc.setRootCA(mLinphoneRingringCaFile);
 		mLc.setPlayFile(mPauseSoundFile);
 		mLc.setChatDatabasePath(mChatDatabaseFile);
 		//mLc.setCallErrorTone(Reason.NotFound, mErrorToneFile);
