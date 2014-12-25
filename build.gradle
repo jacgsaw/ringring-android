@@ -27,8 +27,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3.1'
 
     // Android Annotations
-    apt "org.androidannotations:androidannotations:3.0+"
-    compile "org.androidannotations:androidannotations-api:3.0+"
+    apt "org.androidannotations:androidannotations:3.2+"
+    compile "org.androidannotations:androidannotations-api:3.2+"
 
     // Anything else local
     compile fileTree(dir: 'libs', include: '*.jar')

@@ -1,0 +1,15 @@
+<ivy-module version="2.0">
+    <info organisation="org.apache" module="hello-ivy"/>
+
+    <configurations defaultconfmapping="default->default">
+        <conf name="default" />
+        <conf name="compile" extends="default" />
+    </configurations>
+
+    <dependencies>
+        <dependency org="org.springframework.android" name="spring-android-rest-template" rev="1.0.1.RELEASE" conf="compile->default" />
+        <dependency org="com.google.code.gson" name="gson" rev="2.3.1" conf="compile->default" />
+        <dependency org="org.androidannotations" name="androidannotations" rev="3.2" conf="compile->default" />
+        <dependency org="org.androidannotations" name="androidannotations-api" rev="3.2" conf="compile->default" />
+    </dependencies>
+</ivy-module>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Linphone" default="help">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="Linphone" default="help">
 
     <!-- The local.properties file is created and updated by the 'android' tool.
          It contains the path to the SDK. It should *NOT* be checked into
@@ -54,6 +54,12 @@
             message="sdk.dir is missing. Make sure to generate local.properties using 'android update project' or to inject it through the ANDROID_HOME environment variable."
             unless="sdk.dir"
     />
+
+    <target name="retrieve" description="Retrieve dependencies with ivy">
+        <ivy:retrieve pattern="libs/[artifact]-[revision].[ext]"/>
+    </target>
+
+    <target name="-build-setup" depends="retrieve,android_rules.-build-setup" />
 
     <!--
         Import per project custom build rules if present at the root of the project.
